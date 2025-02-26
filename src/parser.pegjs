@@ -32,7 +32,7 @@
       result.args.push(
         (typeof rightPartIndex == 'undefined') ? right[i] : right[i][rightPartIndex]
       );
-      
+
       result = {
         type: '',
         args:[
@@ -40,24 +40,24 @@
         ]
       };
     }
-    
+
     return result.args[0];
   }
-  
+
   ,predicateExpression = function(expr, axis, predicate, predicateIndex)
   {
     var i, predicates = [];
-    
+
     if (predicate.length < 1)
     {
       return expr;
     }
-    
+
     for (i=0; i < predicate.length; i++)
     {
       predicates.push(predicate[i][predicateIndex]);
     }
-    
+
     return {
       type: 'predicate',
       args: [
@@ -70,13 +70,13 @@
 
   // Track all namespace prefixes used in the expression
   ,nsPrefixes = []
-  
+
   ,trackNsPrefix = function(ns)
   {
     var  i
       ,nsPrefixExists = false
     ;
-    
+
     if (ns === null) return;
 
     // add namespace to the list of namespaces
@@ -92,7 +92,7 @@
       nsPrefixes.push(ns);
     }
   }
-  
+
   ,lastQNameParsed
   ,nodeTypeNames = [
     'comment',
@@ -112,7 +112,7 @@
         ]
       };
     }
-    
+
     // slash == '//'
     return {
       type: '/',
@@ -172,12 +172,12 @@ AbsoluteLocationPath // 2
 RelativeLocationPath // 3, 11
   = expr:Step repeatedExpr:( _ ('//' / '/') _ Step)* {
     var i;
-    
+
     for(i=0; i < repeatedExpr.length; i++)
     {
       expr = expandSlashAbbrev(repeatedExpr[i][1], expr, repeatedExpr[i][3]);
     }
-    
+
     return expr;
   }
 
@@ -217,6 +217,8 @@ AxisName // 6
   / 'parent'
   / 'preceding-sibling'
   / 'preceding'
+  / 'prev-sibling'
+  / 'next-sibling'
   / 'self'
 
 NodeTest // 7
@@ -273,12 +275,12 @@ AbbreviatedStep // 12
         }
       ]
     }
-    
+
     if (abbrev == '..')
     {
       result.args[0] = 'parent';
     }
-    
+
     return result;
   }
 
@@ -339,7 +341,7 @@ PathExpr // 19
   = expr:FilterExpr path:( _ ('//' / '/') _ RelativeLocationPath)? {
     if (!path)
       return expr;
-    
+
     return expandSlashAbbrev(path[1], expr, path[3]);
   }
   / path:LocationPath {
@@ -402,14 +404,14 @@ UnaryExpr // 27
 
 /*
 ExprToken // 28 (not used)
-  = '(' \ ')' \ '[' \ ']' \ '.' \ '..' \ '@' \ ',' \ '::'	
-      \ NameTest	
-      \ NodeType	
-      \ Operator	
-      \ FunctionName	
-      \ AxisName	
-      \ Literal	
-      \ Number	
+  = '(' \ ')' \ '[' \ ']' \ '.' \ '..' \ '@' \ ',' \ '::'
+      \ NameTest
+      \ NodeType
+      \ Operator
+      \ FunctionName
+      \ AxisName
+      \ Literal
+      \ Number
       \ VariableReference
 */
 
@@ -456,9 +458,9 @@ Digits // 31
 
 /*
 Operator // 32 (not used)
-  = OperatorName	
-      \ MultiplyOperator	
-      \ '/' \ '//' \ '|' \ '+' \ '-' \ '=' \ '!=' \ '<' \ '<=' \ '>' \ '>='	
+  = OperatorName
+      \ MultiplyOperator
+      \ '/' \ '//' \ '|' \ '+' \ '-' \ '=' \ '!=' \ '<' \ '<=' \ '>' \ '>='
 
 OperatorName // 33 (not used)
   = 'and' \ 'or' \ 'mod' \ 'div'
@@ -470,7 +472,7 @@ MultiplyOperator // 34
 FunctionName // 35
   = name:QName & { // - NodeType
     var i;
-    
+
     // exclude NodeType names
     if (lastQNameParsed.args[0] === null) // no namespace
     {
@@ -483,7 +485,7 @@ FunctionName // 35
         }
       }
     }
-    
+
     // function name ok
     return true;
   } {
@@ -503,7 +505,7 @@ FunctionName // 35
 VariableReference // 36
   = '$' name:QName {
     trackNsPrefix(name.args[0]);
-    
+
     return {
        type: '$'
       ,args: [
@@ -619,14 +621,14 @@ NameStartChar // 4 (without ':')
   / [\u3001-\uD7FF]
   / [\uF900-\uFDCF]
   / [\uFDF0-\uFFFD]
-  
+
   /* ECMAScript Language Specifiction defines UnicodeEscapeSequence as
    * "\u HexDigit HexDigit HexDigit HexDigit" and while we could use
    * surrogate pairs, no browser supports surrogate pairs natively
    * in regular expression or otherwise, so avoid including them for now.
-   * 
+   *
    * Also PegJS (v0.6.2) doesn't support parsing of unicode expression (\u) longer than 4 chars
-   * 
+   *
    * @see http://stackoverflow.com/questions/3744721/javascript-strings-outside-of-the-bmp
    */
   // [\u10000-\uEFFFF]
