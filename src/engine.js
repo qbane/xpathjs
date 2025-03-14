@@ -1559,7 +1559,7 @@ NodeSetType.prototype.append = function(nodeset) {
     result
   ;
 
-  if(!nodeset instanceof NodeSetType)
+  if(!(nodeset instanceof NodeSetType))
   {
     throw new Error('NodeSetType can be passed into NodeSetType.append method');
   }
@@ -2237,7 +2237,7 @@ const expressions = {
     {
       nodeset = evaluateExpressionTree(this, left);
 
-      if (!nodeset instanceof NodeSetType)
+      if (!(nodeset instanceof NodeSetType))
       {
         throw new Error('Left side of path separator (/) must be of node-set type. (type: ' + nodeset.type + ')');
       }
@@ -2263,7 +2263,7 @@ const expressions = {
         newContext = this.clone(nodeset.value[i]);
         nodeset2 = evaluateExpressionTree(newContext, right);
 
-        if (!nodeset2 instanceof NodeSetType)
+        if (!(nodeset2 instanceof NodeSetType))
         {
           throw new Error('Right side of path separator (/) must be of node-set type. (type: ' + nodeset2.type + ')');
         }
@@ -2550,7 +2550,7 @@ const expressions = {
     nodeset = evaluateExpressionTree(this, expr);
 
     // Ensure we get a node-set
-    if (!nodeset instanceof NodeSetType)
+    if (!(nodeset instanceof NodeSetType))
     {
       throw new Error('Expected "node-set", got: ' + nodeset.type);
     }
@@ -2752,7 +2752,7 @@ const expressions = {
 
     result = fnInfo.fn.apply(this, argVals);
 
-    if (!result instanceof BaseType)
+    if (!(result instanceof BaseType))
     {
       throw new Error('Function "' + formatName(qname) + '" did not return a value that inherits from BaseType.');
     }
@@ -2771,8 +2771,8 @@ const expressions = {
 
     if (typeof left == 'undefined' ||
       typeof right == 'undefined' ||
-      !left instanceof NodeSetType ||
-      !right instanceof NodeSetType)
+      !(left instanceof NodeSetType) ||
+      !(right instanceof NodeSetType))
     {
       throw new Error('Unable to perform union on non-"node-set" types.');
     }
@@ -3952,7 +3952,7 @@ const XPathResult = function(context, type, value)
     case XPathResult.ORDERED_NODE_SNAPSHOT_TYPE:
     case XPathResult.ANY_UNORDERED_NODE_TYPE:
     case XPathResult.FIRST_ORDERED_NODE_TYPE:
-      if (!value instanceof NodeSetType)
+      if (!(value instanceof NodeSetType))
       {
         throw new Error('Expected result of type "node-set", got: "' + value.type + '"');
       }
