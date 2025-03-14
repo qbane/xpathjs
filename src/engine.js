@@ -236,7 +236,7 @@ const nodeFollowingSibling = function(node)
 const nodePrecedingSibling = function(node)
   {
     return nodeXSibling(node, 'previousSibling');
-  },
+  }
 
 //! add "once" parameter to allow returning at most one element
 const nodeXSibling = function(node, type, once)
@@ -2750,7 +2750,7 @@ const expressions = {
       argVals.push(val);
     }
 
-    result = fnInfo.fn.apply(this, argVals);
+    const result = fnInfo.fn.apply(this, argVals);
 
     if (!(result instanceof BaseType))
     {
@@ -3103,8 +3103,15 @@ const functions = {
 
           if (node)
           {
-            // ensure that this node does indeed have a valid id attibute in namespace scope
-            if (nodeIdAttribute.call(this, node))
+            if (
+              //! happily accept the result from getElementById no matter what,
+              //  because this is how browsers handle XPath on HTML5 documents.
+              //  This violates the spec though; see NOTE in
+              //  https://www.w3.org/TR/1999/REC-xpath-19991116/#unique-id
+              this.opts.withNonstandardUtilities ||
+
+              // ensure that this node does indeed have a valid id attibute in namespace scope
+              nodeIdAttribute.call(this, node))
             {
               nodes.push(node);
               continue;
