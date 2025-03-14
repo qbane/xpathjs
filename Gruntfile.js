@@ -32,7 +32,7 @@ module.exports = function(grunt) {
             }
         },
 
-        uglify: {
+        terser: {
             dist: {
                 options: {
                     sourceMap: true,
@@ -46,13 +46,13 @@ module.exports = function(grunt) {
     // Load the plugins
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-terser');
     grunt.loadNpmTasks('grunt-peg');
 
     grunt.registerTask('dist', [
         'clean:dist',
         'peg:dist',
         'concat:dist',
-        'uglify:dist'
+        'terser:dist'
     ]);
 };

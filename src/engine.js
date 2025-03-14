@@ -4,9 +4,12 @@
 // https://github.com/massedge/xpathjs/blob/84f073d84ebd764986885d759d97d808d6c3288a/src/engine.js
 // extensions are commented with //! or /*!
 
-import _parser from './xpath.pegjs'
+//! the modern way: when using an ESM bundler, use this instead
+//  to bundle the compiled parser...
+// import _parser from './xpath.pegjs'
+// const XPathJS = { _parser }
 
-const XPathJS = { _parser }
+const XPathJS = {}
 
 let
   // XPathException,
