@@ -98,7 +98,7 @@ YUI().use("node", "test-console", function (Y) {
 	}
 	
 	function getParameterFromUrl(url, param) {
-		var regexp = new RegExp("(?:\\?|&)" + param + "(?:$|&|=)([^&#]*)");
+		var regexp = new RegExp("(?:\\?|&)" + param + "(?:$|&|=)([^&#]*)"),
 			value = regexp.exec(url)
 		;
 		

@@ -617,7 +617,7 @@ YUI.add('xpathjs-test', function (Y) {
 				];
 				
 				// Processing Instruction
-				node = doc.getElementById('FunctionStringCaseStringNodesetProcessingInstruction').firstChild;
+				var node = doc.getElementById('FunctionStringCaseStringNodesetProcessingInstruction').firstChild;
 				if (node && node.nodeType == 7)
 				{
 					input.push(["string()", node, 'type="text/xml" href="test.xsl"']);
@@ -3312,7 +3312,7 @@ YUI.add('xpathjs-test', function (Y) {
 			
 			testNamespaceAxis3: function()
 			{
-				var namespaces = []
+				var namespaces = [],
 					contextNode = doc.getElementById('testStepAxisNodeNamespace3')
 				;
 				
@@ -3326,7 +3326,7 @@ YUI.add('xpathjs-test', function (Y) {
 			
 			testNamespaceAxis3default: function()
 			{
-				var namespaces = []
+				var namespaces = [],
 					contextNode = doc.getElementById('testStepAxisNodeNamespace3defaultContainer').firstChild
 				;
 				
