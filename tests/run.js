@@ -6,7 +6,8 @@ YUI().use("node", "test-console", function (Y) {
 	{
 		var useNative = !!getParameterFromUrl(location.href, "native"),
 			useXml = !!getParameterFromUrl(location.href, "xml"),
-			testUrl = "tests.php?native=" + ((useNative) ? 1 : 0) + "&xml=" + ((useXml) ? 1 : 0)
+			// it is better handled at modern static file servers
+			testUrl = "tests." + (useXml ? "xhtml" : "html") + "?native=" + ((useNative) ? 1 : 0)
 		;
 		
 		// highlight current settings
@@ -38,32 +39,53 @@ YUI().use("node", "test-console", function (Y) {
 			"tests.js"
 		];
 		
-		if (!useNative) {
-			scripts.push("../src/engine.js");
-			scripts.push("../dist/parser.js");
-		}
+		// not required anymore; using ES module imports
+		// if (!useNative) {
+		// 	// scripts.push("../dist/xpathjs.js");
+		// 	scripts.push("../dist/parser.js");
+		// }
 		
 		// load all xpath scripts for this library
-		Y.Get.script(scripts, {
-			onSuccess: function (e) {
+
+		let toks = []
+
+		async function onAllSuccess() {
+				console.log('on all success')
 				// remove script tags
-				e.purge();
-				
+				toks.forEach(e => e.purge());
+
 				if (!useNative) {
 					// initialize xpathjs
-					win.XPathJS.bindDomLevel3XPath(
-						win.XPathJS.createDomLevel3XPathBindings({
-							'case-sensitive': (useXml) ? true : false
-						})
-					);
+					console.log('loading xpathjs');
+					const xp = await import("../dist/xpathjs.js");
+					console.log('xpathjs is loaded');
+					const bindings = xp.createDomLevel3XPathBindings({
+						// it is on by default
+						withNonstandardUtilities: false,
+						'case-sensitive': (useXml) ? true : false
+					});
+					Object.assign(win.window, bindings.window);
+					Object.assign(win.document, bindings.document);
 				}
-				
+
 				runTests(win);
-			},
-			win: win
+		}
+
+		scripts.forEach((s) => {
+			Y.Get.script(s, {
+				attributes: s.match(/^http/) ? {} : { type: "module" },
+				onSuccess: (e) => {
+					toks.push(e);
+					if (toks.length === scripts.length) {
+						onAllSuccess();
+					}
+				},
+				win,
+			});
 		});
+
 	}
-	
+
 	function runTests(win) {
 		//create the console
 		var r = new Y.Test.Console({

@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: ['@qbane/dev']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+        cache: npm
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build
+      run: npm run build
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        path: dist/
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v5
+
+    - name: Prepare page artifact
+      run: |
+        cp tests/tests.{,x}html
+        mkdir -p public/dist
+        cp dist/xpathjs.js public/dist
+        echo '<meta http-equiv="refresh" content="0; url=./tests">' > public/index.html
+        cp -r tests public
+
+    - name: Upload page artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: public
+
+  deploy:
+    name: Deploy
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+
+    concurrency:
+      group: 'pages'
+      cancel-in-progress: true
+
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4

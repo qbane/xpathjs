@@ -1,9 +1,3 @@
-<?php
-$serve_xml = !empty($_GET['xml']);
-
-if ($serve_xml)
-	header('Content-Type: application/xhtml+xml');
-?>
 <!DOCTYPE html>
 <!-- some comment -->
 <html xml:lang="en-us" xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://some-namespace.com/nss">
@@ -54,7 +48,7 @@ if ($serve_xml)
 			<div id="testFunctionNodesetElementNested"><span>bbb</span>sss<span></span><div>ccc<span>ddd</span></div></div>
 			<div id="testFunctionNodesetComment"><!-- hello world --></div>
 			<div id="testFunctionNodesetText">here is some text</div>
-			<div id="testFunctionNodesetProcessingInstruction"><?php echo '<?xml-stylesheet type="text/xml" href="test.xsl"?>' ?></div>
+			<div id="testFunctionNodesetProcessingInstruction"><?xml-stylesheet type="text/xml" href="test.xsl"?></div>
 			<div id="testFunctionNodesetCData"><![CDATA[some cdata]]></div>
 			<div id="testFunctionNodesetAttribute" ev:class="123" width="  1   00%  "></div>
 			<div id="testFunctionNodesetNamespace" xmlns:asdf="http://www.123.com/"></div>
@@ -65,7 +59,7 @@ if ($serve_xml)
 			<div id="FunctionStringCaseStringNodesetElementNested"><span>bbb</span>sss<span></span><div>ccc<span>ddd</span></div></div>
 			<div id="FunctionStringCaseStringNodesetComment"><!-- hello world --></div>
 			<div id="FunctionStringCaseStringNodesetText">here is some text</div>
-			<div id="FunctionStringCaseStringNodesetProcessingInstruction"><?php echo '<?xml-stylesheet type="text/xml" href="test.xsl"?>' ?></div>
+			<div id="FunctionStringCaseStringNodesetProcessingInstruction"><?xml-stylesheet type="text/xml" href="test.xsl"?></div>
 			<div id="FunctionStringCaseStringNodesetCData"><![CDATA[some cdata]]></div>
 			<div id="FunctionStringCaseStringNodesetAttribute" class="123" width="  1   00%  "></div>
 			<div id="FunctionStringCaseStringNodesetNamespace" xmlns:asdf="http://www.123.com/"></div>
@@ -99,7 +93,7 @@ if ($serve_xml)
 				<div id="testContextNodeParameterText">some text</div>
 				<div id="testContextNodeParameterCData"><![CDATA[aa<strong>some text</strong>]]></div>
 				<div id="testContextNodeParameterComment"><!-- here is comment --></div>
-				<div id="testContextNodeParameterProcessingInstruction"><?php echo '<?xml-stylesheet type="text/xml" href="test.xsl"?>' ?></div>
+				<div id="testContextNodeParameterProcessingInstruction"><?xml-stylesheet type="text/xml" href="test.xsl"?></div>
 				<div id="testContextNodeParameterNamespace" xmlns:asdf="http://some-namespace/"></div>
 			</div>
 		</div>
@@ -110,7 +104,7 @@ if ($serve_xml)
 			<div id="testStepAxisNodeAttribute" style="sss:asdf;" width="100%"></div>
 			<div id="testStepAxisNodeCData"><![CDATA[aa<strong>some text</strong>]]><div></div>asdf</div>
 			<div id="testStepAxisNodeComment"><!-- here is comment --><div></div>asdf</div>
-			<div id="testStepAxisNodeProcessingInstruction"><?php echo '<?xml-stylesheet type="text/xml" href="test.xsl"?>' ?><div></div>asdf</div>
+			<div id="testStepAxisNodeProcessingInstruction"><?xml-stylesheet type="text/xml" href="test.xsl"?><div></div>asdf</div>
 			<div id="testStepAxisNodeNamespace" xmlns:asdf="http://some-namespace/" width="100%"></div>
 			
 			<div id="testStepAxisChild">
@@ -188,13 +182,13 @@ if ($serve_xml)
 			asdf
 			asdfsdf sdf 
 			<div></div>
-			<?php echo '<?xml-stylesheet type="text/xml" href="test.xsl"?>' ?>
+			<?xml-stylesheet type="text/xml" href="test.xsl"?>
 			<div></div>
 			sdfsdf
 			<![CDATA[aa<strong>some text</strong>]]>
 			<!-- comment -->
 			<div></div>
-			<?php echo '<?custom-process-instruct type="text/xml" href="test.xsl"?>' ?>
+			<?custom-process-instruct type="text/xml" href="test.xsl"?>
 			<div></div>
 		</div>
 		
@@ -226,7 +220,7 @@ if ($serve_xml)
 			<div id="LocationPathCaseText">some text</div>
 			<div id="LocationPathCaseComment"><!-- some comment --></div>
 			<div id="LocationPathCaseCData"><![CDATA[some cdata]]></div>
-			<div id="LocationPathCaseProcessingInstruction"><?php echo '<?xml-stylesheet type="text/xml" href="test.xsl"?>' ?></div>
+			<div id="LocationPathCaseProcessingInstruction"><?xml-stylesheet type="text/xml" href="test.xsl"?></div>
 			<div id="LocationPathCaseAttribute" class="123" width="100%"></div>
 			<div id="LocationPathCaseNamespace" xmlns:asdf="http://www.123.com/"></div>
 			
